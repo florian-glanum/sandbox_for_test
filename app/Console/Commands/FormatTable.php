@@ -417,18 +417,19 @@ class FormatTable extends Command
 
         $dataArray = [];
         $this->getDeeperDataInOneArray($tableStructure,$array,$dataArray);
+
         $arrayIndex = $this->createSliceArray(($totalRecursive/$total),5);
 
         $FirstColumnArray = $this->getFirstColumn($dataArray);
 
-        $newArrays = $this->setArrayFromStructure($tableStructure,$arrayIndex,$dataArray,$FirstColumnArray);
+        $newArraysSliced = $this->setArrayFromStructure($tableStructure,$arrayIndex,$dataArray,$FirstColumnArray);
 
         $html = '';
-        //create table from Json
+        //create table from SlidedArray
         for ($i=0;$i <count($arrayIndex) ;$i++ )
         {
             $html .= '<table>';
-            $html .=  $this->recurcivereader($newArrays[$i],10,'');
+            $html .=  $this->recurciveHtmlCreatorFromArray($newArraysSliced[$i],10,'');
             $html .= '</table>';
         }
 
@@ -554,7 +555,7 @@ class FormatTable extends Command
     }
 
 
-    function recurcivereader(array $startArray, int $LimiteSize, string $LastBalise) : string
+    function recurciveHtmlCreatorFromArray(array $startArray, int $LimiteSize, string $LastBalise) : string
     {
         $LimiteSize -= 1;
         if ($LimiteSize === 0) {
